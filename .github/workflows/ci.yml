@@ -15,6 +15,10 @@ jobs:
         with:
           node-version: "24"
           cache: true
+      - name: Verify the committed npm lock
+        run: |
+          npx --yes --package=npm@11.16.0 -- npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          git diff --quiet -- package-lock.json
       - run: vp install --frozen-lockfile
       - run: npm run check
       - run: npm test
